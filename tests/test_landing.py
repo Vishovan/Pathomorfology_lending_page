@@ -14,14 +14,16 @@ def test_build_landing_html_default():
     assert "https://pathomorphology.streamlit.app" in html
     assert 'data-set-product="ki67"' in html
     assert 'data-set-product="her2"' in html
-    assert 'data-set-product="panel"' in html
+    # Ki-67 + HER2 merged mode removed; only separate products remain
+    assert 'data-set-product="panel"' not in html
     assert "--img-dna:" in html
     assert "--img-tissue:" in html
     assert "--img-hero-cells:" in html
     assert "--img-chart-glow:" in html
-    assert "--img-team2:" in html
     assert "/* __PLATES_CSS__ */" not in html
     assert "<!-- __WSI_SEG_SVG__ -->" not in html
+    # Compact payload size for fast Streamlit initial load
+    assert len(html) < 800_000
 
 
 def test_updated_pitch_content_and_redirects():

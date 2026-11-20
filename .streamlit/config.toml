@@ -12,3 +12,6 @@ showErrorDetails = false
 
 [browser]
 gatherUsageStats = false
+
+[runner]
+fastReruns = true

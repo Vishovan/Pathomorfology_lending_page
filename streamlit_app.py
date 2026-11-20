@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
+import re
 
 try:
     import streamlit as st
@@ -21,22 +22,26 @@ except ImportError:  # pragma: no cover - allows unit testing without streamlit 
 REPO_ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = REPO_ROOT / "assets"
 MAIN_PRODUCT_URL = "https://pathomorphology.streamlit.app"
+_COMMENT_RE = re.compile(r"<!--(?!\s*\[if)[\s\S]*?-->")
 
 
-@lru_cache(maxsize=8)
+@lru_cache(maxsize=4)
 def build_landing_html(initial_product: str = "ki67", initial_view: str = "landing") -> str:
-    """Assemble self-contained landing page HTML with embedded microscopy visual plates."""
+    """Assemble compact, pre-warmed landing page HTML for instant Streamlit startup."""
     landing_path = ASSETS_DIR / "landing.html"
     plates_path = ASSETS_DIR / "plates.css"
 
     html = landing_path.read_text(encoding="utf-8")
     plates_css = plates_path.read_text(encoding="utf-8") if plates_path.exists() else ""
 
-    # Inline background plates and remove external stylesheet reference for Streamlit srcdoc iframe
+    # Inline lightweight compressed plates & strip HTML comments cleanly outside <script>
     html = html.replace('<link rel="stylesheet" href="plates.css" />', "")
     html = html.replace("/* __PLATES_CSS__ */", plates_css)
+    head_body, sep, tail_script = html.partition("<script>")
+    head_body = _COMMENT_RE.sub("", head_body)
+    html = head_body + sep + tail_script
 
-    valid_products = {"ki67", "her2", "panel"}
+    valid_products = {"ki67", "her2"}
     valid_views = {"landing", "deck"}
     prod = initial_product if initial_product in valid_products else "ki67"
     view = initial_view if initial_view in valid_views else "landing"
@@ -53,6 +58,10 @@ def build_landing_html(initial_product: str = "ki67", initial_view: str = "landi
         html = html.replace("</body>", boot_script)
 
     return html
+
+
+# Pre-warm default HTML at server startup so visitors render with zero cold build lag
+_PREWARMED_HTML = build_landing_html("ki67", "landing")
 
 
 def main() -> None:

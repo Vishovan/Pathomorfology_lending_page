@@ -6,7 +6,8 @@
   <title>Pathology Smart Gateway — Цифровая патоморфология РМЖ (Ki-67 &amp; HER2)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" /></noscript>
   <link rel="stylesheet" href="plates.css" />
   <style id="plates-inline">
     /* __PLATES_CSS__ */
@@ -43,14 +44,6 @@
       --accent-2: #81D9CE;
       --border-strong: rgba(229, 184, 123, 0.30);
       --glow-spread: rgba(229, 184, 123, 0.16);
-    }
-
-    body[data-product="panel"] {
-      --accent: #81D9CE;
-      --accent-rgb: 129, 217, 206;
-      --accent-2: #E5B87B;
-      --border-strong: rgba(129, 217, 206, 0.34);
-      --glow-spread: rgba(129, 217, 206, 0.20);
     }
 
     * {
@@ -111,10 +104,6 @@
       opacity: 0.20;
       filter: hue-rotate(-135deg) saturate(0.85);
       transform: scaleX(-1) scale(1.14) translate(-2%, 1%);
-    }
-    body[data-product="panel"] .ambient-plate--dna {
-      opacity: 0.36;
-      transform: scaleX(-1) scale(1.11);
     }
     .ambient-plate--cells {
       background-image: var(--img-hero-cells, var(--img-cells));
@@ -286,10 +275,6 @@
       background: var(--accent);
       font-weight: 600;
       box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.38);
-    }
-    body[data-product="panel"] .prod-btn.active[data-set-product="panel"] {
-      background: linear-gradient(135deg, #81D9CE 0%, #E5B87B 100%);
-      color: #041815;
     }
     .prod-btn.active .dot {
       opacity: 1;
@@ -1615,10 +1600,6 @@
     body[data-product="her2"] .np.cls-n {
       opacity: 0.35;
     }
-    body[data-product="panel"] .np.cls-p,
-    body[data-product="panel"] .np.cls-n {
-      opacity: 0.72;
-    }
 
     .gw-canvas.hide-cells .layer-nuclei,
     .gw-canvas.hide-cells .layer-her2-rings { opacity: 0; pointer-events: none; }
@@ -2224,9 +2205,6 @@
         <button type="button" class="prod-btn" data-set-product="her2" role="tab" aria-selected="false">
           <span class="dot"></span>HER2
         </button>
-        <button type="button" class="prod-btn" data-set-product="panel" role="tab" aria-selected="false">
-          <span class="dot"></span>Ki-67 + HER2
-        </button>
       </div>
 
       <!-- View Mode Switcher -->
@@ -2261,7 +2239,7 @@
 
             <!-- Product Mode Selector Cards -->
             <div class="hero-switcher-wrap">
-              <span class="hero-switcher-lbl">Плавное переключение продуктового контура:</span>
+              <span class="hero-switcher-lbl">Плавное переключение продукта:</span>
               <div class="hero-tabs">
                 <button type="button" class="hero-tab active" data-set-product="ki67">
                   <div class="ht-top">
@@ -2276,13 +2254,6 @@
                     <span class="ht-badge">Мембрана · 0–3+</span>
                   </div>
                   <div class="ht-sub">Замкнутость кольца DAB · ASCO/CAP · ISH при 2+</div>
-                </button>
-                <button type="button" class="hero-tab" data-set-product="panel">
-                  <div class="ht-top">
-                    <span>Панель Ki-67 + HER2</span>
-                    <span class="ht-badge">Единый шлюз</span>
-                  </div>
-                  <div class="ht-sub">Два среза пациента · 17 961 WSI MosMed.AI</div>
                 </button>
               </div>
             </div>
@@ -2318,7 +2289,7 @@
 
               <!-- Dynamic SVG Cell/Membrane Micro-Visualizer -->
               <div class="hv-diagram" id="hv-svg-container">
-                <!-- Populated dynamically by JS for Ki-67 / HER2 / Panel -->
+                <!-- Populated dynamically by JS for Ki-67 / HER2 -->
               </div>
 
               <div class="hv-stats">
@@ -2391,7 +2362,6 @@
             <div class="gw-toolbar">
               <button type="button" class="gw-tool active" data-set-product="ki67">ИГХ Ki-67</button>
               <button type="button" class="gw-tool" data-set-product="her2">ИГХ HER2</button>
-              <button type="button" class="gw-tool" data-set-product="panel">Панель РМЖ</button>
               <button type="button" class="gw-tool" id="btn-toggle-ba">До / После</button>
               <button type="button" class="gw-tool" id="btn-rescan">Повтор анализа</button>
               <button type="button" class="gw-tool active" id="btn-toggle-zones">Очаг / Строма</button>
@@ -2405,7 +2375,7 @@
           <div class="gw-body">
             <!-- Left Clinical Telemetry Rail -->
             <aside class="gw-sidebar morph-target">
-              <button type="button" class="gw-select-box" id="btn-cycle-protocol" title="Клик для переключения протокола (Ki-67 → HER2 → Панель)">
+              <button type="button" class="gw-select-box" id="btn-cycle-protocol" title="Клик для переключения протокола (Ki-67 ↔ HER2)">
                 <span id="gw-protocol-name">ИГХ Ki-67 · инвазивный РМЖ</span>
                 <span style="color:var(--accent)">↻</span>
               </button>
@@ -2744,7 +2714,7 @@
           <button type="button" class="fin-tab" data-fin-scen="opt">Положительный (1 000 ₽)</button>
         </div>
 
-        <!-- Dynamic Financial Charts (Morph with Ki-67 / HER2 / Panel & Scenario Tab) -->
+        <!-- Dynamic Financial Charts (Morph with Ki-67 / HER2 & Scenario Tab) -->
         <div class="fin-grid morph-target">
           <!-- Left Chart: Revenue by Scenario -->
           <div class="card chart-box roi-card">
@@ -3169,64 +3139,6 @@
               { k: 'Грант и софинансирование', v: '1,0 + 2,17 млн ₽', s: 'запрашиваемый грант ФСИ 1 млн ₽ + 2,17 млн ₽ доп. раунда' }
             ]
           }
-        },
-
-        panel: {
-          navBadge: 'Ki-67 + HER2 · Панель РМЖ',
-          eyebrow: 'ФСИ «СТУДЕНЧЕСКИЙ СТАРТАП» · КОМПЛЕКСНЫЙ ИИ-ШЛЮЗ KI-67 + HER2',
-          heroTitle: 'Единый шлюз РМЖ: <span class="hl-accent">индекс Ki-67</span> + оценка мембраны <span class="hl-accent">HER2</span>',
-          heroSub: 'Два последовательных среза одного пациента в едином локальном окне верификации: готовый контур Ki-67 (TRL 4–5, NPV 5,15 млн ₽) расширяется модулем HER2 по стандарту ASCO/CAP — суммарный поток 17 961 WSI в базовом контуре MosMed.AI.',
-          hvTitle: 'Двойная ИГХ-панель РМЖ: Ядро + Мембрана',
-          hvBadge: 'Ki-67 (%) + HER2 (0–3+)',
-          hvS1K: 'Базовый контур MosMed',
-          hvS1V: '17 961<span>WSI/год</span>',
-          hvS2K: 'Тарифная сетка',
-          hvS2V: '250 / 500 / 1 000<span>₽</span>',
-          metrics: [
-            { v: '17 961 <small>WSI</small>', l: 'базовый годовой поток панели: 8 252 стекла Ki-67 + 9 709 стёкол HER2 (MosMed.AI)', cta: 'К анализу рынка →', sec: 'economics' },
-            { v: '19,58 <small>млн ₽</small>', l: 'выручка трека Ki-67 за 5 лет (нейтральный, чистая прибыль 10,14 млн ₽, рент. 51,8%)', cta: 'Смотреть прогноз →', sec: 'economics' },
-            { v: 'F1 ≥ 0,85', l: 'целевые метрики НИОКР: Dice ≥ 0,80, AJI ≥ 0,60, Precision ≥ 0,90, Δ ≤ 5–10 п.п.', cta: 'Архитектура ИИ →', sec: 'architecture' },
-            { v: '18–24 <small>мес.</small>', l: 'регуляторный путь с резервом до РУ Росздравнадзора 2б (бюджет 1,4–2,2 млн ₽)', cta: 'Дорожная карта →', sec: 'roadmap' }
-          ],
-          gwBadge: 'Панель РМЖ · Ki-67 + HER2',
-          gwStatus: 'черновик · 2 среза',
-          gwFile: 'пациент #1f7073b3: Ki67 + HER2 · 2 WSI',
-          gwProtocol: 'Комплексная ИГХ-панель РМЖ (Ki-67 + HER2)',
-          gwM1Lbl: 'Ki-67 Global / Статус HER2',
-          gwM2Lbl: 'Ki-67 Hotspot (500 мкм) · Кольцо HER2',
-          gwM2Note: 'Сводная верификация двух срезов пациента врачом-патоморфологом',
-          gwRoiLbl: 'ROI · Двойной контроль Ki-67 + HER2',
-          pipe: [
-            { n: '01 · Два среза WSI', t: 'Загрузка по ID', d: 'Потоковая обработка обезличенных WSI Ki-67 и HER2 на ПК врача или в MinIO клиники.' },
-            { n: '02 · Очередь тайлов', t: 'Контур ПК/Сервер', d: 'Пофрагментное сканирование с автоподстройкой под микроскоп и краситель H-DAB.' },
-            { n: '03 · Ветка Ki-67', t: 'Ядро (4 класса)', d: 'Инстанс-сегментация, отсев лимфоцитов и стромы, Hotspot 500 мкм + общий индекс.' },
-            { n: '04 · Ветка HER2', t: 'Мембрана (0–3+)', d: 'Анализ полноты замыкания мембранного кольца DAB и маркировка 2+ → ISH/FISH.' },
-            { n: '05 · Единый отчёт', t: 'Правка в 1 клик', d: 'Врач правит спорные клетки на любом срезе и фиксирует протокол.' }
-          ],
-          fin: {
-            revTitle: 'Совокупная оценка выручки Ki-67 + HER2 (базовая), млн ₽',
-            revBadge: 'Ki-67 + HER2 · 2027–2031',
-            cfTitle: 'Денежный поток Ki-67 (год 1) и потребность этапа HER2, млн ₽',
-            cfBadge: 'Ki-67 NPV 5,15 · HER2 план 3,17 млн',
-            revSeries: {
-              pess: [0.94, 1.24, 1.27, 1.29, 1.31],
-              neut: [6.11, 8.58, 9.26, 10.01, 10.80],
-              opt:  [19.35, 28.90, 33.23, 38.21, 43.95],
-              maxY: 46
-            },
-            cfMode: 'bars1yr',
-            cfBars: [
-              { key: 'pess', label: 'Пессимистичный', val: -1.18, txt: '−1,18 (Ki-67)', color: 'rgba(255,255,255,0.28)' },
-              { key: 'neut', label: 'Нейтральный', val: 0.26, txt: '+0,26 (Ki-67)', color: 'rgba(var(--accent-rgb),0.68)' },
-              { key: 'opt', label: 'Потребн. HER2', val: 3.17, txt: '3,17 (HER2 план)', color: 'var(--accent)' }
-            ],
-            kpis: [
-              { k: 'Ki-67 (нейтр. 5 лет)', v: '19,58 млн ₽', s: 'чистая прибыль 10,14 млн ₽ · рентабельность 51,8% · NPV 5,15 млн' },
-              { k: 'Ki-67 окупаемость', v: '10,2 мес.', s: 'полож. 6,8 мес. · BEP 294 стекла/мес. (3 529/год)' },
-              { k: 'Ёмкость контура РФ', v: '17 961 WSI', s: 'MosMed.AI: 8 252 Ki-67 + 9 709 HER2 (РФ Ki-67 ≈ 113,6 тыс.)' },
-              { k: 'Бюджет НИОКР старт', v: '731 тыс. / 3,17 млн', s: '731 тыс. ₽ ФОТ Ki-67 + плановая потребность этапа HER2' }
-            ]
-          }
         }
       };
 
@@ -3339,7 +3251,7 @@
               '<circle cx="342" cy="136" r="8" fill="rgba(148,163,184,0.2)" stroke="#94a3b8" stroke-width="1.6"/>' +
               '<text x="218" y="38" fill="rgba(255,255,255,0.62)" font-size="9.5" font-family="Inter, sans-serif">● Ki-67+  ● Ki-67−  ● TILs/строма</text>' +
             '</svg>';
-        } else if (mode === 'her2') {
+        } else {
           box.innerHTML =
             '<svg viewBox="0 0 420 200" width="100%" height="100%">' +
               '<g transform="translate(30,32)">' +
@@ -3366,23 +3278,6 @@
                 '<text x="40" y="114" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12" font-weight="600">0 Негатив</text>' +
                 '<text x="40" y="128" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5">нет мембраны</text>' +
               '</g>' +
-            '</svg>';
-        } else {
-          box.innerHTML =
-            '<svg viewBox="0 0 420 200" width="100%" height="100%">' +
-              '<rect x="16" y="24" width="182" height="152" rx="12" fill="rgba(129,217,206,0.05)" stroke="rgba(129,217,206,0.35)"/>' +
-              '<text x="30" y="46" fill="#81D9CE" font-size="11" font-weight="600">Срез №1 · ИГХ Ki-67</text>' +
-              '<circle cx="65" cy="95" r="14" fill="rgba(245,158,11,0.3)" stroke="#f59e0b" stroke-width="2"/>' +
-              '<circle cx="112" cy="82" r="13" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2"/>' +
-              '<circle cx="148" cy="108" r="14" fill="rgba(245,158,11,0.3)" stroke="#f59e0b" stroke-width="2"/>' +
-              '<text x="30" y="156" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="JetBrains Mono, monospace">16,4% | Hotspot 24,8%</text>' +
-              '<rect x="222" y="24" width="182" height="152" rx="12" fill="rgba(229,184,123,0.06)" stroke="rgba(229,184,123,0.4)"/>' +
-              '<text x="236" y="46" fill="#E5B87B" font-size="11" font-weight="600">Срез №2 · ИГХ HER2</text>' +
-              '<circle cx="275" cy="95" r="18" fill="rgba(229,184,123,0.16)" stroke="#E5B87B" stroke-width="3.2"/>' +
-              '<circle cx="275" cy="95" r="7" fill="rgba(129,217,206,0.4)"/>' +
-              '<circle cx="342" cy="95" r="18" fill="rgba(229,184,123,0.1)" stroke="#E5B87B" stroke-width="2.2" stroke-dasharray="7 4"/>' +
-              '<circle cx="342" cy="95" r="7" fill="rgba(129,217,206,0.4)"/>' +
-              '<text x="236" y="156" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="JetBrains Mono, monospace">Статус: 2+ / 3+ (ASCO/CAP)</text>' +
             '</svg>';
         }
       }
@@ -3414,8 +3309,11 @@
         };
       }
 
-      function initSvgSegmentation() {
-        var svg = gwCanvasEl ? gwCanvasEl.querySelector('.wsi-seg-svg') : null;
+      var her2RingsBuilt = false;
+      function ensureHer2Rings() {
+        if (her2RingsBuilt || !gwCanvasEl) return;
+        her2RingsBuilt = true;
+        var svg = gwCanvasEl.querySelector('.wsi-seg-svg');
         if (!svg) return;
         var ns = 'http://www.w3.org/2000/svg';
         var ringsGroup = document.createElementNS(ns, 'g');
@@ -3433,7 +3331,6 @@
           if (npEl.classList.contains('cls-p') || npEl.classList.contains('cls-n')) {
             var geom = parsePolyCenter(npEl);
             if (!geom) return;
-            // Deterministic realistic ASCO/CAP score distribution across tumor cells
             var score = (idx % 11 < 3) ? 'h3' : ((idx % 11 < 6) ? 'h2' : ((idx % 11 < 9) ? 'h1' : 'h0'));
             var ring = document.createElementNS(ns, 'circle');
             ring.setAttribute('cx', geom.cx);
@@ -3445,6 +3342,20 @@
             her2RingByNp[idx] = { el: ring, score: score, orig: score };
           }
         });
+      }
+
+      function initSvgSegmentation() {
+        var svg = gwCanvasEl ? gwCanvasEl.querySelector('.wsi-seg-svg') : null;
+        if (!svg) return;
+        var nps = svg.querySelectorAll('.np');
+        Array.prototype.forEach.call(nps, function (npEl, idx) {
+          npEl.setAttribute('data-idx', idx);
+        });
+        if (typeof window.requestIdleCallback === 'function') {
+          window.requestIdleCallback(ensureHer2Rings, { timeout: 600 });
+        } else {
+          setTimeout(ensureHer2Rings, 140);
+        }
       }
 
       function showWsiToast(msg) {
@@ -3477,7 +3388,8 @@
             '<div class="gw-leg-item' + (activeFocusCls === 'n' ? ' active' : '') + '" data-cls="n"><i class="gw-swatch" style="background:#60a5fa"></i><span>Опухоль Ki-67− (нажать — фокус)</span></div>' +
             '<div class="gw-leg-item' + (activeFocusCls === 'l' ? ' active' : '') + '" data-cls="l"><i class="gw-swatch" style="background:#c084fc"></i><span>Лимфоциты (вне знаменателя)</span></div>' +
             '<div class="gw-leg-item' + (activeFocusCls === 's' ? ' active' : '') + '" data-cls="s"><i class="gw-swatch" style="background:#94a3b8"></i><span>Строма (вне знаменателя)</span></div>';
-        } else if (currentProduct === 'her2') {
+        } else {
+          ensureHer2Rings();
           var hc = { h3: 0, h2: 0, h1: 0, h0: 0 };
           her2RingByNp.forEach(function (item) {
             if (item && hc.hasOwnProperty(item.score)) hc[item.score]++;
@@ -3495,21 +3407,8 @@
             '<div class="gw-kv-row"><span>Кольцо 1+ / 0 (слабое / нет)</span><b>' + Math.round((hc.h1 + hc.h0) * 25.7).toLocaleString('ru-RU') + '</b></div>' +
             '<div class="gw-kv-row"><span>Статус по ASCO/CAP</span><b style="color:#81D9CE">' + (score === '2+' ? 'Рекомендован ISH/FISH' : 'Верифицировано 3+') + '</b></div>';
           legBox.innerHTML =
-            '<div class="gw-leg-item" data-cls="p"><i class="gw-swatch" style="border:2.5px solid #E5B87B;background:rgba(229,184,123,0.25)"></i><span>HER2 3+ (клик по клетке — правка)</span></div>' +
-            '<div class="gw-leg-item" data-cls="n"><i class="gw-swatch" style="border:2px dashed #E5B87B"></i><span>HER2 2+ (пограничное кольцо)</span></div>' +
-            '<div class="gw-leg-item" data-cls="l"><i class="gw-swatch" style="background:#c084fc"></i><span>Лимфоциты (исключены)</span></div>' +
-            '<div class="gw-leg-item" data-cls="s"><i class="gw-swatch" style="background:#94a3b8"></i><span>Строма (исключена)</span></div>';
-        } else {
-          m1Val.innerHTML = kiPct + '%<span>/ HER2 2+</span>';
-          m2Val.textContent = 'Hotspot ' + hotPct + '% · 3+/2+';
-          kvBox.innerHTML =
-            '<div class="gw-kv-row"><span>Ki-67 (только опухоль)</span><b style="color:#81D9CE">' + kiPct + '% (' + wsiCur.pos.toLocaleString('ru-RU') + ' / ' + wsiCur.tumor.toLocaleString('ru-RU') + ')</b></div>' +
-            '<div class="gw-kv-row"><span>Ki-67 hotspot 500 мкм</span><b>' + hotPct + '%</b></div>' +
-            '<div class="gw-kv-row"><span>HER2 мембранный черновик</span><b style="color:#E5B87B">2+ (уточнение ISH)</b></div>' +
-            '<div class="gw-kv-row"><span>Отсев (TILs + строма)</span><b>' + (wsiCur.lymph + wsiCur.stroma).toLocaleString('ru-RU') + '</b></div>';
-          legBox.innerHTML =
-            '<div class="gw-leg-item' + (activeFocusCls === 'p' ? ' active' : '') + '" data-cls="p"><i class="gw-swatch" style="background:#f59e0b"></i><span>Опухоль Ki-67+ + кольцо HER2</span></div>' +
-            '<div class="gw-leg-item' + (activeFocusCls === 'n' ? ' active' : '') + '" data-cls="n"><i class="gw-swatch" style="background:#60a5fa"></i><span>Опухоль Ki-67− + кольцо HER2</span></div>' +
+            '<div class="gw-leg-item' + (activeFocusCls === 'p' ? ' active' : '') + '" data-cls="p"><i class="gw-swatch" style="border:2.5px solid #E5B87B;background:rgba(229,184,123,0.25)"></i><span>HER2 3+ (клик по клетке — правка)</span></div>' +
+            '<div class="gw-leg-item' + (activeFocusCls === 'n' ? ' active' : '') + '" data-cls="n"><i class="gw-swatch" style="border:2px dashed #E5B87B"></i><span>HER2 2+ (пограничное кольцо)</span></div>' +
             '<div class="gw-leg-item' + (activeFocusCls === 'l' ? ' active' : '') + '" data-cls="l"><i class="gw-swatch" style="background:#c084fc"></i><span>Лимфоциты (исключены)</span></div>' +
             '<div class="gw-leg-item' + (activeFocusCls === 's' ? ' active' : '') + '" data-cls="s"><i class="gw-swatch" style="background:#94a3b8"></i><span>Строма (исключена)</span></div>';
         }
@@ -3837,16 +3736,17 @@
           var thKi = document.getElementById('th-ki67');
           var thHer = document.getElementById('th-her2');
           if (thKi && thHer) {
-            thKi.classList.toggle('hl-col', mode === 'ki67' || mode === 'panel');
-            thHer.classList.toggle('hl-col', mode === 'her2' || mode === 'panel');
+            thKi.classList.toggle('hl-col', mode === 'ki67');
+            thHer.classList.toggle('hl-col', mode === 'her2');
           }
           Array.prototype.forEach.call(document.querySelectorAll('td[data-col="ki67"]'), function (td) {
-            td.classList.toggle('hl-col', mode === 'ki67' || mode === 'panel');
+            td.classList.toggle('hl-col', mode === 'ki67');
           });
           Array.prototype.forEach.call(document.querySelectorAll('td[data-col="her2"]'), function (td) {
-            td.classList.toggle('hl-col', mode === 'her2' || mode === 'panel');
+            td.classList.toggle('hl-col', mode === 'her2');
           });
 
+          if (mode === 'her2') ensureHer2Rings();
           renderHeroMicroDiagram(mode);
           renderGatewayReadouts();
           renderPipeline(cfg);
@@ -3854,7 +3754,7 @@
           renderDeckSlide();
 
           document.body.classList.remove('is-morphing');
-        }, 160);
+        }, 140);
       }
 
       Array.prototype.forEach.call(document.querySelectorAll('[data-set-product]'), function (btn) {
@@ -3867,8 +3767,7 @@
       var btnCycleProtocol = document.getElementById('btn-cycle-protocol');
       if (btnCycleProtocol) {
         btnCycleProtocol.addEventListener('click', function () {
-          var orderP = ['ki67', 'her2', 'panel'];
-          setProduct(orderP[(orderP.indexOf(currentProduct) + 1) % orderP.length]);
+          setProduct(currentProduct === 'ki67' ? 'her2' : 'ki67');
         });
       }
 
