@@ -54,3 +54,15 @@ def test_build_landing_html_her2_and_deck():
     html_her2 = landing_app.build_landing_html(initial_product="her2", initial_view="deck")
     assert "window.setGatewayProduct('her2')" in html_her2
     assert "document.body.setAttribute('data-view', 'deck')" in html_her2
+
+
+def test_mobile_responsiveness_and_streamlit_scroll():
+    html = landing_app.build_landing_html()
+    assert "viewport-fit=cover" in html
+    assert "@media (max-width: 640px)" in html
+    assert "-webkit-overflow-scrolling: touch" in html
+    assert "scroll-margin-top:" in html
+    assert "100dvh" in html
+    streamlit_src = (REPO_ROOT / "streamlit_app.py").read_text(encoding="utf-8")
+    assert "100dvh" in streamlit_src
+    assert "-webkit-overflow-scrolling: touch" in streamlit_src

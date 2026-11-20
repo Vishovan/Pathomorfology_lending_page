@@ -66,16 +66,20 @@ def main() -> None:
         initial_sidebar_state="collapsed",
     )
 
-    # Full-bleed 100vw x 100vh viewport without Streamlit headers, footers, or padding
+    # Full-bleed responsive desktop + mobile (100dvh + iOS/Android touch scroll) viewport
     st.markdown(
         """
         <style>
-            html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], .main {
+            html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], .main, section.main {
                 margin: 0 !important;
                 padding: 0 !important;
-                overflow: hidden !important;
-                height: 100vh !important;
-                width: 100vw !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                min-height: 100vh !important;
+                min-height: 100dvh !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
                 background: #000000 !important;
             }
             header[data-testid="stHeader"],
@@ -87,18 +91,27 @@ def main() -> None:
                 display: none !important;
                 height: 0 !important;
             }
-            .block-container, [data-testid="stMainBlockContainer"] {
+            .block-container,
+            [data-testid="stMainBlockContainer"],
+            [data-testid="stVerticalBlock"],
+            .element-container,
+            [data-testid="element-container"],
+            [data-testid="stCustomComponentV1"],
+            [data-testid="stHtml"] {
                 padding: 0 !important;
                 margin: 0 !important;
                 max-width: 100vw !important;
-                width: 100vw !important;
-                height: 100vh !important;
+                width: 100% !important;
+                gap: 0 !important;
             }
             iframe {
                 display: block !important;
                 border: none !important;
-                width: 100vw !important;
+                width: 100% !important;
+                max-width: 100vw !important;
                 height: 100vh !important;
+                height: 100dvh !important;
+                -webkit-overflow-scrolling: touch !important;
             }
         </style>
         """,
