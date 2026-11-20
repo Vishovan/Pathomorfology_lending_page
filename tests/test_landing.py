@@ -19,7 +19,35 @@ def test_build_landing_html_default():
     assert "--img-tissue:" in html
     assert "--img-hero-cells:" in html
     assert "--img-chart-glow:" in html
+    assert "--img-team2:" in html
     assert "/* __PLATES_CSS__ */" not in html
+    assert "<!-- __WSI_SEG_SVG__ -->" not in html
+
+
+def test_updated_pitch_content_and_redirects():
+    html = landing_app.build_landing_html()
+    # Latest Ki-67 pitch metrics
+    assert "СтС-649049" in html
+    assert "86 705" in html
+    assert "16,4" in html
+    assert "24,8%" in html
+    assert "5,15 млн" in html
+    assert "19,58 млн" in html
+    assert "LSP-DETR" in html
+    # Latest HER2 pitch metrics
+    assert "9 709" in html
+    assert "3,17" in html
+    assert "ASCO/CAP" in html
+    # Pixel-locked 814-cell WSI SVG & Before/After mode
+    assert 'class="wsi-seg-svg"' in html
+    assert "layer-nuclei" in html
+    assert 'id="btn-toggle-ba"' in html
+    assert 'id="ba-divider"' in html
+    # Clickable & redirectable handlers
+    assert "data-goto-sec=" in html
+    assert "jumpToSection(" in html
+    assert 'id="jump-back-btn"' in html
+    assert 'data-fin-scen="neut"' in html
 
 
 def test_build_landing_html_her2_and_deck():
